@@ -1,0 +1,137 @@
+[
+    {
+        "objectives": [
+            {
+                "id": 1,
+                "value": "Stop Violence"
+            },
+            {
+                "id": 2,
+                "value": "Objective 1"
+            }
+        ],
+        "resources": [
+            {
+                "id": 1,
+                "value": "Pen"
+            },
+            {
+                "id": 2,
+                "value": "My Resources"
+            },
+            {
+                "id": 8,
+                "value": "Learning 1"
+            },
+            {
+                "id": 9,
+                "value": "Machizi"
+            }
+        ],
+        "activities": [
+            {
+                "id": 1,
+                "value": "Activities"
+            }
+        ],
+        "completed": false,
+        "week_name": "1",
+        "term_name": "Term 1",
+        "comments": "Lets see how the comment will appear",
+        "sub_strand": "Introduction to Chemistry"
+    },
+    {
+        "objectives": [
+            {
+                "id": 1,
+                "value": "My objectives are to work on the second one "
+            }
+        ],
+        "resources": [
+            {
+                "id": 1,
+                "value": "Objectiv 1"
+            },
+            {
+                "id": 2,
+                "value": "Objectiv 1"
+            },
+            {
+                "id": 3,
+                "value": "Objectiv 1"
+            }
+        ],
+        "activities": [
+            {
+                "id": 1,
+                "value": "Objectiv 1"
+            },
+            {
+                "id": 2,
+                "value": "Objectiv 1"
+            }
+        ],
+        "completed": false,
+        "week_name": 17,
+        "term_name": "Term 1",
+        "comments": "Comments are saved here"
+    },
+    {
+        "objectives": [
+            {
+                "id": 1,
+                "value": "Increase their understanding of animals "
+            }
+        ],
+        "resources": [
+            {
+                "id": 1,
+                "value": "Klb book 1"
+            }
+        ],
+        "activities": [
+            {
+                "id": 1,
+                "value": "23 activities of life"
+            }
+        ],
+        "completed": false,
+        "week_name": "13",
+        "term_name": "Term 1",
+        "comments": "Communication is the less risky world sikuizi "
+    },
+    {
+        "objectives": [
+            {
+                "id": 1,
+                "value": "Students should be able to read and write the data in the table"
+            }
+        ],
+        "resources": [],
+        "activities": [],
+        "completed": false,
+        "week_name": "1",
+        "term_name": "Term 2",
+        "comments": ""
+    },
+    {
+        "objectives": [],
+        "resources": [],
+        "activities": [],
+        "completed": false,
+        "week_name": 2,
+        "term_name": "Term 1",
+        "comments": "",
+        "sub_strand": "Introduction to Chemistry"
+    },
+    {
+        "objectives": [],
+        "resources": [],
+        "activities": [],
+        "completed": false,
+        "week_name": 3,
+        "term_name": "Term 1",
+        "comments": "",
+        "sub_strand": "Introduction to Chemistry"
+    }
+]

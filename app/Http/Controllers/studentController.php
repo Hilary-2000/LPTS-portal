@@ -413,6 +413,9 @@ class studentController extends Controller
         // return $student_data;
         return view("student_profile",["class_teacher" => $class_teacher, "student_data" => $student_data[0], "student_notification" => $student_notification]);
     }
+    function discussionForum(){
+        return view("coming_soon");
+    }
     function encryptCode($dataToEncrypt)
     {
         //first get char code for each name

@@ -410,6 +410,9 @@ class teacherController extends Controller
         $encrypted = strrev($encrpted);
         return $encrypted;
     }
+    function discussionForum(){
+        return view("coming_soon");
+    }
     function decryptcode($datatodecrypt)
     {
         $arrayeddata = str_split(strrev($datatodecrypt), 3);

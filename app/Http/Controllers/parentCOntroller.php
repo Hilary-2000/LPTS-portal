@@ -1623,6 +1623,9 @@ class parentCOntroller extends Controller
         $parents_notification = $this->getParentsNotification();
         return view("parentStudentProfile",["class_teacher" => $class_teacher, "parents_notification" => $parents_notification, "student_data" => $student_data[0]]);
     }
+    function discussionForum(){
+        return view("coming_soon");
+    }
 
     function getTrTeaching($classlist,$class_name){
         if (session("school_information") == null) {

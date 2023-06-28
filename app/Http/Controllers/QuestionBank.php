@@ -314,6 +314,9 @@ class QuestionBank extends Controller
         return $notifications;
     }
     function bankIt(Request $request){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the teacher`s academic plan
         $database_name = session("school_information")->database_name;
 
@@ -395,6 +398,9 @@ class QuestionBank extends Controller
         return redirect("/Teacher/QuestionBank/".$lesson_id."/BankQuestions/".$class_id."");
     }
     function editQB($lesson_id,$class_id,$quiz_id){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the teacher`s academic plan
         $database_name = session("school_information")->database_name;
 
@@ -452,6 +458,9 @@ class QuestionBank extends Controller
         return redirect("/Teacher/QuestionBank/".$lesson_id."/Create/".$class_id."");
     }
     function updateTable(Request $request){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // return $request;
         $lesson_id = $request->input("lesson_id");
         $class_id = $request->input("class_id");
@@ -520,6 +529,9 @@ class QuestionBank extends Controller
     }
 
     function createTestQB(Request $request){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // return $request;
         $lesson_id = $request->input("lesson_id");
         $class_id = $request->input("class_id");

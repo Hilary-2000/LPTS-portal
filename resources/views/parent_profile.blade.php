@@ -5,15 +5,17 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Dashboard -
+    <title>Parent Profile -
         {{ session('parents_data') != null ? ucwords(strtolower(session('parents_data')['parent_name'])) : '' }}
     </title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="{{'https://lsims.ladybirdsmis.com/sims/'.session('school_information')->school_profile_image}}" rel="icon">
-    <link href="{{'https://lsims.ladybirdsmis.com/sims/'.session('school_information')->school_profile_image}}" rel="apple-touch-icon">
+    <link href="{{ 'https://lsims.ladybirdsmis.com/sims/' . session('school_information')->school_profile_image }}"
+        rel="icon">
+    <link href="{{ 'https://lsims.ladybirdsmis.com/sims/' . session('school_information')->school_profile_image }}"
+        rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -43,6 +45,7 @@
 @php
     date_default_timezone_set('Africa/Nairobi');
 @endphp
+
 <body>
 
     <!-- ======= Header ======= -->
@@ -220,7 +223,7 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link " href="/Parent/Dashboard">
+                <a class="nav-link collapsed" href="/Parent/Dashboard">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
@@ -264,7 +267,7 @@
             <li class="nav-heading">Pages</li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="/Parent/Profile">
+                <a class="nav-link " href="/Parent/Profile">
                     <i class="bi bi-person"></i>
                     <span>My Profile</span>
                 </a>
@@ -280,10 +283,11 @@
 
     </aside><!-- End Sidebar-->
 
+
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Dashboard</h1>
+            <h1>Personal Profile</h1>
             <nav>
                 <ol class="breadcrumb">
                     {{-- <li class="breadcrumb-item"><a href="index.html">Home</a></li> --}}
@@ -292,203 +296,229 @@
             </nav>
         </div><!-- End Page Title -->
 
-        <section class="section dashboard">
+        <section class="section profile">
             <div class="row">
+                <div class="col-xl-4">
 
-                <!-- Left side columns -->
-                <div class="col-lg-8">
-                    <div class="row">
-
-                        <!-- Sales Card -->
-                        <div class="col-xxl-4 col-md-6">
-                            <div class="card info-card sales-card">
-                                <div class="card-body">
-                                    <h5 class="card-title">My Children <span></span></h5>
-
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-card-list"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>{{count($students_data)}} Children</h6>
-                                            {{-- <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase to last term</span> --}}
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- End Sales Card -->
-
-                        <!-- Revenue Card -->
-                        <div class="col-xxl-4 col-md-6">
-                            <div class="card info-card revenue-card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Fees Balance <span>| Total</span></h5>
-
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-currency-dollar"></i>
-                                        </div>
-                                        @php
-                                            $total_bal = 0;
-                                            for ($index=0; $index < count($students_data); $index++) { 
-                                                $total_bal+=$students_data[$index]->stud_balance;
-                                            }
-                                        @endphp
-                                        <div class="ps-3">
-                                            <h6>Kes {{number_format($total_bal)}}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div><!-- End Revenue Card -->
-
-                        <!-- Customers Card -->
-                        <div class="col-xxl-4 col-xl-12">
-                            <div class="card info-card customers-card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Academic Week <span>| This Term</span></h5>
-
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-calendar-event"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>Week {{$week_number}} Of {{$weeks}}</h6>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div><!-- End Customers Card -->
-
-
-                        {{-- <hr class="my-2">
-                        @for ($index = 0; $index < count($students_data); $index++)
-                            <!-- Revenue Card -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div class="card info-card sales-card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Fees Bal <span>| {{ucwords(strtolower($students_data[$index]->first_name))}} - {{$term}}</span></h5>
-
-                                        <div class="d-flex align-items-center">
-                                            <div
-                                                class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                                <i class="bi bi-currency-dollar"></i>
-                                            </div>
-                                            <div class="ps-3">
-                                                <h6>Kes {{number_format($students_data[$index]->stud_balance)}}</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div><!-- End Revenue Card -->
-                        @endfor
-                        <hr class="my-2">
-                        @for ($index = 0; $index < count($students_data); $index++)
-                            <div class="col-xxl-4 col-md-6">
-                                <div class="card info-card revenue-card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Attendance <span>| {{ucwords(strtolower($students_data[$index]->first_name))}}</span></h5>
-
-                                        <div class="d-flex align-items-center">
-                                            <div
-                                                class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                                <i class="bi bi-person-check-fill"></i>
-                                            </div>
-                                            <div class="ps-3">
-                                                <h6>{{ ($students_data[$index]->present_stats[0]*=1 != 0 && $students_data[$index]->present_stats[1]*=1 != 0) ? round(($students_data[$index]->present_stats[0] * 100) / $students_data[$index]->present_stats[1]) : "0"}}  %</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        @endfor --}}
-                        <hr class="my-2">
-
-                        <!-- Recent Sales -->
-                        <div class="col-12">
-                            <div class="card recent-sales overflow-auto">
-                                <div class="card-body">
-                                    <h5 class="card-title">My Children <span>| All</span></h5>
-
-                                    <table class="table table-borderless datatable">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Student Name</th>
-                                                <th scope="col">Fees Balance</th>
-                                                <th scope="col">Attendance</th>
-                                                <th scope="col">Class</th>
-                                                <th scope="col">Status/Action</th>
-                                            </tr>
-                                        </thead>
-                                        @php
-                                            function classNameAdms($data){
-                                                if ($data == "-1") {
-                                                    return "Alumni";
-                                                }
-                                                if ($data == "-2") {
-                                                    return "Transfered";
-                                                }
-                                                $datas = "Grade ".$data;
-                                                if (strlen($data)>1) {
-                                                    $datas = $data;
-                                                }
-                                                return $datas;
-                                            }
-                                        @endphp
-                                        <tbody>
-                                            @for ($i = 0; $i < count($students_data); $i++)
-                                                <tr>
-                                                    <th scope="row"><a href="#">{{$i+1}}</a></th>
-                                                    <td style="min-width: 100px;">{{ucwords(strtolower($students_data[$i]->first_name." ".$students_data[$i]->second_name))}}</td>
-                                                    <td style="min-width: 100px;"><a href="#" class="text-primary">Kes {{number_format($students_data[$i]->stud_balance)}}</a>
-                                                    </td>
-                                                    <td style="min-width: 100px;">{{ ($students_data[$i]->present_stats[0]*=1 != 0 && $students_data[$i]->present_stats[1]*=1 != 0) ? round(($students_data[$i]->present_stats[0] * 100) / $students_data[$i]->present_stats[1]) : "0"}}%</td>
-                                                    <td style="min-width: 100px;">{{classNameAdms($students_data[$i]->stud_class)}}</td>
-                                                    <td style="min-width: 100px;"><a href="/Parent/View/StudentProfile/{{$students_data[$i]->adm_no}}" class="btn btn-sm btn-primary"> <i class="bi bi-eye-fill"></i> View</a> </td>
-                                                </tr>
-                                            @endfor
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                            </div>
-                        </div><!-- End Recent Sales -->
-                    </div>
-                </div><!-- End Left side columns -->
-
-                <!-- Right side columns -->
-                <div class="col-lg-4">
-                    <!-- News & Updates Traffic -->
                     <div class="card">
-                        <div class="card-body pb-0">
-                            <h5 class="card-title">News &amp; Updates <span>| Latest</span></h5>
+                        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-                            <div class="news">
-                                @for ($i = 0; $i < count($dash_notification); $i++)
-                                    <div class="post-item clearfix">
-                                        <img src="/assets/img/{{$dash_notification[$i]->message_status == 1 ? "bell.jpg" : "read.gif"}}" alt="">
-                                        <h4><a href="/Parent/Alert/Read/{{$dash_notification[$i]->id}}">{{strlen($dash_notification[$i]->message_title) > 100 ? substr($dash_notification[$i]->message_title,0,100)."..." : $dash_notification[$i]->message_title}}</a></h4>
-                                        <p>{!!strlen(getInnerText($dash_notification[$i]->message_body)) > 100 ? substr(getInnerText($dash_notification[$i]->message_body),0,100)."..." : getInnerText($dash_notification[$i]->message_body) !!}</p>
-                                        <p>{{getTimeAgo($dash_notification[$i]->date_created)}}</p>
+                            <img src="{{ session('parents_data') != null ? '/assets/img/dp.png' : '/assets/img/dp.png' }}"
+                                alt="Profile" class="rounded-circle">
+                            <h2>{{ ucwords(strtolower($parent_data['parent_name'])) }}</h2>
+                            <h3>Parent</h3>
+                            <p class="text-success">{{ session('valid') != null ? session('valid') : '' }}</p>
+                            <p class="text-danger">{{ session('invalid') != null ? session('invalid') : '' }}</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xl-8">
+
+                    <div class="card">
+                        <div class="card-body pt-3">
+                            <!-- Bordered Tabs -->
+                            <ul class="nav nav-tabs nav-tabs-bordered">
+                                <li class="nav-item">
+                                    <button class="nav-link active" data-bs-toggle="tab"
+                                        data-bs-target="#profile-overview">Overview</button>
+                                </li>
+
+                                {{-- <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit
+                                        Profile</button>
+                                </li> --}}
+
+                                <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab"
+                                        data-bs-target="#profile-change-password">Change Password</button>
+                                </li>
+
+                            </ul>
+                            <div class="tab-content pt-2">
+
+                                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                                    <h5 class="card-title">Profile Details</h5>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label" style="font-size:12px;">Full Name</div>
+                                        <div class="col-lg-9 col-md-8" style="font-size:12px;">
+                                            {{ ucwords(strtolower($parent_data['parent_name'])) }}</div>
                                     </div>
-                                @endfor
-                            </div><!-- End sidebar recent posts-->
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label" style="font-size:12px;">Phone Number</div>
+                                        <div class="col-lg-9 col-md-8" style="font-size:12px;">
+                                            {{ ucwords(strtolower($parent_data['parent_contact'])) }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label" style="font-size:12px;">Relationship</div>
+                                        <div class="col-lg-9 col-md-8" style="font-size:12px;">
+                                            {{$parent_data['parent_relationship']}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label" style="font-size:12px;">Parent Email</div>
+                                        <div class="col-lg-9 col-md-8" style="font-size:12px;">
+                                            {{$parent_data['parent_email']}}
+                                        </div>
+                                    </div>
+                                </div>
+                                @php
+                                    function classNameAdms($data){
+                                        if ($data == "-1") {
+                                            return "Alumni";
+                                        }
+                                        if ($data == "-2") {
+                                            return "Transfered";
+                                        }
+                                        $datas = "Grade ".$data;
+                                        if (strlen($data)>1) {
+                                            $datas = $data;
+                                        }
+                                        return $datas;
+                                    }
+                                @endphp
+
+                                {{-- <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
+                                    <!-- Profile Edit Form -->
+                                    <form action="/Teacher/Updateprofile" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="adm_no"
+                                            value="{{ ucwords(strtolower($student_data->adm_no)) }}">
+                                        <div class="row mb-3">
+                                            <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
+                                                Image </label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <img src="{{(session('student_information') != null && session('student_information')->student_image != null) ? 'https://lsims.ladybirdsmis.com/sims/'.session('student_information')->student_image : '/assets/img/dp.png'}}"
+                                                    alt="Profile" class="rounded-circle">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="fullName" class="col-md-4 col-lg-3 col-form-label"
+                                                style="font-size:12px;">Full Name</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="fullName" type="text" disabled class="form-control"
+                                                    id="fullName"
+                                                    value="{{ ucwords(strtolower($student_data->first_name." ".$student_data->second_name)) }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="company" class="col-md-4 col-lg-3 col-form-label"
+                                                style="font-size:12px;">School</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="company" type="text" disabled class="form-control"
+                                                    id="company"
+                                                    value="{{ ucwords(strtolower(session('school_information')->school_name)) }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="Job" class="col-md-4 col-lg-3 col-form-label"
+                                                style="font-size:12px;">User Role</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="job" type="text" class="form-control" disabled
+                                                    id="Job"
+                                                    value="Student">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="Country" class="col-md-4 col-lg-3 col-form-label"
+                                                style="font-size:12px;">Country</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="country" type="text" class="form-control"
+                                                    id="Country" value="Kenya" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="Address" class="col-md-4 col-lg-3 col-form-label"
+                                                style="font-size:12px;">Address</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="address" type="text" class="form-control"
+                                                    id="Address" value="{{ $student_data->address }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="Phone" class="col-md-4 col-lg-3 col-form-label"
+                                                style="font-size:12px;">Class</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="phone" type="text" class="form-control"
+                                                    id="Phone" value="{{ ($student_data->stud_class) }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="Email" class="col-md-4 col-lg-3 col-form-label"
+                                                style="font-size:12px;">Admisson No</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="email" type="email" class="form-control"
+                                                    id="Email" value="{{ $student_data->adm_no }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary"><i
+                                                    class="bi bi-upload"></i> Update Changes</button>
+                                        </div>
+                                    </form><!-- End Profile Edit Form -->
+                                </div> --}}
+
+                                <div class="tab-pane fade pt-3" id="profile-change-password">
+                                    <!-- Change Password Form -->
+                                    <form method="POST" action="/Parent/UpdatePass">
+                                        @csrf
+                                        <input type="hidden" name="parent_identifier"
+                                            value="{{ $parent_data['parent_contact'] }}">
+                                        <div class="row mb-3">
+                                            <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label"
+                                                style="font-size:12px;">Current Password</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input required name="password" type="password"
+                                                    placeholder="Current Password" class="form-control"
+                                                    id="currentPassword">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="newPassword" class="col-md-4 col-lg-3 col-form-label"
+                                                style="font-size:12px;">New Password</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input required name="newpassword" type="password"
+                                                    placeholder="New Password" class="form-control" id="newPassword">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label"
+                                                style="font-size:12px;">Re-enter New Password</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input required name="renewpassword" type="password"
+                                                    placeholder="Re-enter New Password" class="form-control"
+                                                    id="renewPassword">
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary">Change Password</button>
+                                        </div>
+                                    </form><!-- End Change Password Form -->
+
+                                </div>
+
+                            </div><!-- End Bordered Tabs -->
 
                         </div>
-                    </div><!-- End News & Updates -->
-                </div><!-- End Right side columns -->
+                    </div>
 
+                </div>
             </div>
         </section>
 

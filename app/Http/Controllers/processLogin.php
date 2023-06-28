@@ -174,7 +174,7 @@ class processLogin extends Controller
                         DB::setDefaultConnection("mysql2");
 
                         // get the parents details
-                        $select = DB::select("SELECT * FROM `student_data` WHERE `parentContacts` = ? OR `parent_contact2` = ?",[$username,$username]);
+                        $select = DB::select("SELECT * FROM `student_data` WHERE `parentContacts` = ? OR `parent_contact2` = ? ORDER BY `ids` ASC",[$username,$username]);
                         
                         if (count($select) > 0) {
                             // authenticate the password

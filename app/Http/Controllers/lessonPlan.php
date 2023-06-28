@@ -21,6 +21,9 @@ class lessonPlan extends Controller
 {
     function updateMediumPlan(Request $req)
     {
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // return $req;
         $subject_id = $req->input("subject_id");
         $subject_class = $req->input("subject_class");
@@ -142,6 +145,9 @@ class lessonPlan extends Controller
     }
     function get_weeks_between_dates($start_date, $end_date)
     {
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // Convert the dates to UNIX timestamps
         $start_timestamp = strtotime($start_date);
         $end_timestamp = strtotime($end_date);
@@ -1160,6 +1166,9 @@ class lessonPlan extends Controller
 
     function shortTermProgress($weekly_plan)
     {
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the days that are out of the academic calender this academic year
         // this periods are the periods when school closes and before it opens
         $academic_calender = DB::select("SELECT * FROM `academic_calendar`");
@@ -1380,6 +1389,9 @@ class lessonPlan extends Controller
     }
     
     function getStudentMessage(){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
         config(['database.connections.mysql2.database' => $database_name]);
@@ -1398,6 +1410,9 @@ class lessonPlan extends Controller
 
     function studentDash()
     {
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the teacher`s academic plan
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
@@ -1513,6 +1528,9 @@ class lessonPlan extends Controller
     }
 
     function studentAssignments(){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the teacher`s academic plan
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
@@ -1555,19 +1573,15 @@ class lessonPlan extends Controller
             // come back and add the status for done or ongoing
             // get those assignments that are open and those that are closed
         }
-
-        // return assignments
-        // return $assignments;
-
-        // return view used to display the assignments
-        // return $assignments;
-
         $student_notification = $this->getStudentMessage();
         return view("student_assignment",["student_notification" => $student_notification,"assignments" => $assignments]);
     }
 
     function getStudentAttendance()
     {
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // from the start of the academic year to today
         // get the teacher`s academic plan
         $database_name = session("school_information")->database_name;
@@ -1647,6 +1661,9 @@ class lessonPlan extends Controller
         return $weekdays;
     }
     function getTrsNotification(){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
         config(['database.connections.mysql2.database' => $database_name]);
@@ -1664,6 +1681,9 @@ class lessonPlan extends Controller
 
     function teacherDash()
     {
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the subjects taught by the teacher
         $subjects_taught = $this->getSubjectsTaught();
 
@@ -1759,6 +1779,9 @@ class lessonPlan extends Controller
     }
 
     function teachesSubject($class,$subject){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the teacher`s academic plan
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
@@ -1888,6 +1911,9 @@ class lessonPlan extends Controller
     }
 
     function isHod($subject_id){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the teacher`s academic plan
         $database_name = session("school_information")->database_name;
 
@@ -1931,6 +1957,9 @@ class lessonPlan extends Controller
     }
 
     function hodLessonPlan(){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the subject that the HOD can manage
         // get the teacher`s academic plan
         $database_name = session("school_information")->database_name;
@@ -1980,6 +2009,9 @@ class lessonPlan extends Controller
 
     function getSubjectsTaught()
     {
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the teacher`s academic plan
         $database_name = session("school_information")->database_name;
 
@@ -2817,6 +2849,9 @@ class lessonPlan extends Controller
 
     function uploadNotesFiles(Request $request)
     {
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         $subject_id = $request->input("subject_id");
         $class_selected = $request->input("class_selected");
         $file = $request->file('file');

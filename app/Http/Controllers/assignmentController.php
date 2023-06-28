@@ -12,6 +12,9 @@ date_default_timezone_set('Africa/Nairobi');
 class assignmentController extends Controller
 {
     function getTrsNotification(){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
         config(['database.connections.mysql2.database' => $database_name]);
@@ -92,6 +95,9 @@ class assignmentController extends Controller
         return view("assignment_dash",["teacher_notifications" => $teacher_notifications,"subjects_taught" => $subjects_taught]);
     }
     function getStudentMessage(){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
         config(['database.connections.mysql2.database' => $database_name]);
@@ -110,6 +116,9 @@ class assignmentController extends Controller
 
     // create assignments
     function createAssignments($subject_id,$selected_class){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // check if the school information is set
         if (session("school_information") == null) {
             return redirect("/");
@@ -200,6 +209,9 @@ class assignmentController extends Controller
     }
 
     function createAssignment(Request $request){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // return $request;
         
         // save the data in the database
@@ -253,6 +265,9 @@ class assignmentController extends Controller
     }
 
     function editAssignment($assignment_id){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // database name
         $database_name = session("school_information")->database_name;
 
@@ -289,6 +304,9 @@ class assignmentController extends Controller
     }
 
     function assignmentIds($assignment_id){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // database name
         $database_name = session("school_information")->database_name;
 
@@ -317,6 +335,9 @@ class assignmentController extends Controller
     }
 
     function assignmentStatus($assignment_id){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // database name
         $database_name = session("school_information")->database_name;
 
@@ -342,6 +363,9 @@ class assignmentController extends Controller
     }
 
     function deleteAssignment($assignment_id){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // database name
         $database_name = session("school_information")->database_name;
 
@@ -392,6 +416,9 @@ class assignmentController extends Controller
     }
 
     function updateAssignments(Request $request){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // database name
         $database_name = session("school_information")->database_name;
 
@@ -423,6 +450,9 @@ class assignmentController extends Controller
     }
 
     function setAssignment($assignment_id){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // database name
         $database_name = session("school_information")->database_name;
 
@@ -460,6 +490,9 @@ class assignmentController extends Controller
 
     function uploadAssignments(Request $request)
     {
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         $resource_name = $request->input("resource_name");
         $file = $request->file('file');
         $extension = strtolower($file->getClientOriginalExtension());
@@ -499,6 +532,9 @@ class assignmentController extends Controller
     }
 
     function addAssignments(Request $request){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // return $request;
         $assignment_question_holder = $request->input("assignment_question_holder");
         $multiple_choices_holder = $request->input("multiple_choices_holder");
@@ -578,6 +614,9 @@ class assignmentController extends Controller
     }
 
     function deleteQuiz($assignment_id,$questions){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         $question_id = $questions;
         // return $assignment_id;
         // database name
@@ -645,6 +684,9 @@ class assignmentController extends Controller
     }
 
     function submitAnswers(Request $request){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // return $request;
         $assignment_data = $request->input("assignment_data");
         $assignment_id = $request->input("assignment_id");
@@ -721,6 +763,9 @@ class assignmentController extends Controller
 
     function reviewMyAnswers($assignment_id){
         // return $assignment_id;
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
 
         // get the subject details
         // database name
@@ -733,7 +778,7 @@ class assignmentController extends Controller
         
         // get the data from the database
         $select = DB::select("SELECT * FROM `assignments` WHERE `id` = ? ORDER BY `id` DESC",[$assignment_id]);
-        
+        // return $select;
         // check if there is going to be a result st
         if (count($select) > 0) {
             // get the assignments
@@ -748,10 +793,15 @@ class assignmentController extends Controller
 
             // RETURN THE NEW SUBJECT NAME
             $student_class = $this->classNameAdms($class_selected);
-
+            
             // return value
             $student_notification = $this->getStudentMessage();
-            return view("reviewAssignment",["student_notification" => $student_notification,"assignment" => $select[0], "subject_name" => $subject_name]);
+
+            // get the creater
+            DB::setDefaultConnection("mysql");
+            $creator_dets = DB::select("SELECT * FROM `user_tbl` WHERE `user_id` = ?",[$select[0]->created_by]);
+            $creators_name = count($creator_dets) > 0 ? "Tr. ".ucwords(strtolower($creator_dets[0]->fullname)) : "N/A";
+            return view("reviewAssignment",["creators_name" => $creators_name,"student_notification" => $student_notification,"assignment" => $select[0], "subject_name" => $subject_name]);
         }else{
             session()->flash("invalid","The assignment might have been deleted or not published! Ask your teacher for further advice.");
             return redirect("/Students/Assignment");
@@ -759,6 +809,9 @@ class assignmentController extends Controller
     }
 
     function markedAnswers(Request $request){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // return $request;
         $assignment_id = $request->input("assignment_id");
         $my_student_answers = $request->input("my_student_answers");
@@ -824,6 +877,9 @@ class assignmentController extends Controller
     }
 
     function markAssignments($assignment_id){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // return $assignment_id;
 
         // database name
@@ -887,6 +943,9 @@ class assignmentController extends Controller
     }
 
     function markStudentAssignments($assignment_id,$adm_no){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // database name
         $database_name = session("school_information")->database_name;
 
@@ -950,6 +1009,9 @@ class assignmentController extends Controller
     }
 
     function redoAssignment($assignment_id,$student_id){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // database name
         $database_name = session("school_information")->database_name;
 

@@ -300,7 +300,7 @@
                 <div class="card">
                   <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
       
-                    <img src="{{ session('staff_infor') != null ? 'https://lsims.ladybirdsmis.com/sims/'.session('staff_infor')->profile_loc : 'assets/img/dp.png' }}"
+                    <img src="{{ session('staff_infor') != null ? ((session('staff_infor')->profile_loc != null && strlen(session('staff_infor')->profile_loc)) ? 'https://lsims.ladybirdsmis.com/sims/'.session('staff_infor')->profile_loc : "https://lsims.ladybirdsmis.com/sims/images/dp.png") : 'assets/img/dp.png' }}"
                             alt="Profile" class="rounded-circle">
                     <h2>{{ucwords(strtolower($staff_data[0]->fullname))}}</h2>
                     <h3>{{$staff_data[0]->auth == 0 ? " Administrator" : ($staff_data[0]->auth == 1 ? "Headteacher" : ($staff_data[0]->auth == 2 ? "Deputy principal" : (($staff_data[0]->auth == 3 || $staff_data[0]->auth == 4) ? "Teacher" : ($staff_data[0]->auth == 5 ? "Class Teacher" : $staff_data[0]->auth))))}}</h3>
@@ -316,7 +316,6 @@
                 </div>
       
               </div>
-      
               <div class="col-xl-8">
       
                 <div class="card">
@@ -385,9 +384,9 @@
                             @csrf
                             <input type="hidden" name="user_id" value="{{ucwords(strtolower($staff_data[0]->user_id))}}">
                           <div class="row mb-3">
-                            <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                            <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image </label>
                             <div class="col-md-8 col-lg-9">
-                                <img src="{{ session('staff_infor') != null ? 'https://lsims.ladybirdsmis.com/sims/'.session('staff_infor')->profile_loc : 'assets/img/dp.png' }}"
+                                <img src="{{ session('staff_infor') != null ? ((session('staff_infor')->profile_loc != null && strlen(session('staff_infor')->profile_loc)) ? 'https://lsims.ladybirdsmis.com/sims/'.session('staff_infor')->profile_loc : "https://lsims.ladybirdsmis.com/sims/images/dp.png") : 'assets/img/dp.png' }}"
                                 alt="Profile" class="rounded-circle">
                             </div>
                           </div>

@@ -11,6 +11,9 @@ class teacherController extends Controller
     //this is the main teacher controller
     function teacherMessage(Request $request)
     {
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the teacher`s academic plan
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
@@ -52,6 +55,9 @@ class teacherController extends Controller
         return $notifications;
     }
     function readNotification($readNotification){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the teacher`s academic plan
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
@@ -91,6 +97,9 @@ class teacherController extends Controller
 
     // get the data
     function createAlert(){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the teacher`s academic plan
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
@@ -104,6 +113,9 @@ class teacherController extends Controller
     }
     function createAlertnMessage(Request $request){
         // return $request;
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the teacher`s academic plan
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
@@ -200,6 +212,9 @@ class teacherController extends Controller
     }
     // manage alerts
     function manageAlerts(){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the teacher`s academic plan
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
@@ -228,6 +243,9 @@ class teacherController extends Controller
 
     function manageExistingAlert($message_id){
         // get the teacher`s academic plan
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
         config(['database.connections.mysql2.database' => $database_name]);
@@ -249,6 +267,9 @@ class teacherController extends Controller
     }
 
     function updateAlert(Request $request){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
         config(['database.connections.mysql2.database' => $database_name]);
@@ -266,6 +287,9 @@ class teacherController extends Controller
         return redirect("/Teacher/Messages/Manage/$notice_ids");
     }
     function deleteAlert($notification_id){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
         config(['database.connections.mysql2.database' => $database_name]);
@@ -281,6 +305,9 @@ class teacherController extends Controller
         return redirect("/Teacher/Messages/Manage");
     }
     function getTrsNotification(){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         $database_name = session("school_information")->database_name;
         // SET THE DATABASE NAME AS PER THE STUDENT ADMISSION NO
         config(['database.connections.mysql2.database' => $database_name]);
@@ -297,6 +324,9 @@ class teacherController extends Controller
     }
 
     function teacherProfile(){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // get the staff profile details details
         $teacher_notifications = $this->getTrsNotification();
         // return session("school_information")->school_name;
@@ -308,6 +338,9 @@ class teacherController extends Controller
     }
     
     function updateProfile(Request $request){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // return $request;
         $user_id = $request->input("user_id");
         $address = $request->input("address");
@@ -330,6 +363,9 @@ class teacherController extends Controller
     }
 
     function UpdatePassword(Request $request){
+        if (session("school_information") == null) {
+            return redirect("/");
+        }
         // return $request;
         $user_id = $request->input("user_id");
         $password = $request->input("password");

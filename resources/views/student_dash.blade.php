@@ -385,23 +385,44 @@
                                         </thead>
                                         <tbody>
                                             @for ($i = 0; $i < count($assignments); $i++)
+                                                @php
+                                                    $my_assignment = $assignments[$i]->period;
+                                                    $decoded = json_decode($my_assignment);
+                                                    $today = date("Ymd");
+                                                    $start_date = date("Ymd",strtotime($decoded->start_date));
+                                                    $end_date = date("Ymd",strtotime($decoded->end_date));
+
+                                                    // expired
+                                                    $not_expired = false;
+                                                    if ($start_date <= $today && $end_date >= $today) {
+                                                        $not_expired = true;
+                                                    }
+                                                @endphp
                                                 <tr>
                                                     <th scope="row"><a href="#">{{$i+1}}</a></th>
                                                     <td style="min-width: 100px;">{{$assignments[$i]->name}}</td>
                                                     <td style="min-width: 100px;">{{$assignments[$i]->subject_name}}</td>
                                                     <td style="min-width: 100px;">{{isJson($assignments[$i]->period) ? date("D dS M Y",strtotime(json_decode($assignments[$i]->period)->end_date)) : "Not-Set"}}</td>
                                                     <td style="min-width: 100px;">
-                                                        @if ($assignments[$i]->done_status)
-                                                            {{$assignments[$i]->marks_attained}} / {{$assignments[$i]->total_marks}} Mark(s)
+                                                        @if ($not_expired)
+                                                            @if ($assignments[$i]->done_status)
+                                                                {{$assignments[$i]->marks_attained}} / {{$assignments[$i]->total_marks}} Mark(s)
+                                                            @else
+                                                                <span class="badge bg-warning">Not Done</span>
+                                                            @endif
                                                         @else
-                                                            <span class="badge bg-warning">Not Done</span>
+                                                            <span class="badge bg-danger">Not Done</span>
                                                         @endif
                                                     </td>
                                                     <td style="min-width: 100px;">
-                                                        @if ($assignments[$i]->done_status)
-                                                            <a href="/Student/Assignment/ViewDone/{{$assignments[$i]->id}}" class="btn btn-secondary btn-sm"><i class="bi bi-eye"></i> View</a>
+                                                        @if ($not_expired)
+                                                            @if ($assignments[$i]->done_status)
+                                                                <a href="/Student/Assignment/ViewDone/{{$assignments[$i]->id}}" class="btn btn-secondary btn-sm"><i class="bi bi-eye"></i> View</a>
+                                                            @else
+                                                                <a href="/Student/Assignment/Attempt/{{$assignments[$i]->id}}" class="btn btn-success btn-sm"><i class="bi bi-pen"></i> Attempt</a>
+                                                            @endif
                                                         @else
-                                                            <a href="/Student/Assignment/Attempt/{{$assignments[$i]->id}}" class="btn btn-success btn-sm"><i class="bi bi-pen"></i> Attempt</a>
+                                                            <a href="/Student/Assignment/ViewDone/{{$assignments[$i]->id}}" class="btn btn-secondary btn-sm"><i class="bi bi-eye"></i> View</a>
                                                         @endif
                                                     </td>
                                                 </tr>

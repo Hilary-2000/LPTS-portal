@@ -123,7 +123,7 @@
                         @for ($i = 0; $i < count($parents_notification); $i++)
                             <li class="notification-item">
                                 <i class="bi bi-bell text-primary"></i>
-                                <a href="/Teacher/Alert/Read/{{$parents_notification[$i]->id}}">
+                                <a href="/Parent/Alert/Read/{{$parents_notification[$i]->id}}">
                                     <h4 class="text-dark">{{$parents_notification[$i]->message_title}}</h4>
                                     <p>{{strlen(getInnerText($parents_notification[$i]->message_body)) > 50 ? substr(getInnerText($parents_notification[$i]->message_body),0,50)."..." : getInnerText($parents_notification[$i]->message_body)}}</p>
                                     <p>{{getTimeAgo($parents_notification[$i]->date_created)}}</p>

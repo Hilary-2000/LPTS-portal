@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Student Fees -
+    <title>Student Perfomance -
         {{ session('parents_data') != null ? ucwords(strtolower(session('parents_data')['parent_name'])) : '' }}
     </title>
     <meta content="" name="description">
@@ -123,7 +123,7 @@
                         @for ($i = 0; $i < count($parents_notification); $i++)
                             <li class="notification-item">
                                 <i class="bi bi-bell text-primary"></i>
-                                <a href="/Teacher/Alert/Read/{{$parents_notification[$i]->id}}">
+                                <a href="/Parent/Alert/Read/{{$parents_notification[$i]->id}}">
                                     <h4 class="text-dark">{{$parents_notification[$i]->message_title}}</h4>
                                     <p>{{strlen(getInnerText($parents_notification[$i]->message_body)) > 50 ? substr(getInnerText($parents_notification[$i]->message_body),0,50)."..." : getInnerText($parents_notification[$i]->message_body)}}</p>
                                     <p>{{getTimeAgo($parents_notification[$i]->date_created)}}</p>
@@ -283,12 +283,12 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Student Fees</h1>
+            <h1>Student Perfomance</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/Parent/Dashboard"><i class="bi bi-house-door"></i></a>
                     </li>
-                    <li class="breadcrumb-item active">Student Fees</li>
+                    <li class="breadcrumb-item active">Student Perfomance</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->

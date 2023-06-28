@@ -116,6 +116,8 @@ Route::get("/Student/CourseMaterial",[studentController::class,"studentCourseMat
 Route::get("/Student/CM/view/{subject_id}",[studentController::class,"getCourseMaterials"]);
 Route::get("/Students/Messages",[studentController::class,"getStudentNotification"]);
 Route::get("/Student/Alert/Read/{notification_id}",[studentController::class,"readStudentNotifications"]);
+Route::get("/Student/Profile",[studentController::class,"getStudentData"]);
+Route::post("/Student/UpdatePass",[studentController::class,"updateStudentPassword"]);
 
 // parents routes
 Route::get("/Parent/Fees",[parentCOntroller::class,"parentFees"]);
@@ -125,6 +127,11 @@ Route::get("/Parent/Fees/View/{fees_id}/{adm_no}",[parentCOntroller::class,"getF
 Route::get("/Parent/Peformance",[parentCOntroller::class,"parentPerfomance"]);
 Route::get("/Parent/Alert",[parentCOntroller::class,"parentAlert"]);
 Route::get("/Parent/Alert/Read/{alert_id}",[parentCOntroller::class,"readParentAlert"]);
+Route::get("/Parent/Profile",[parentCOntroller::class,"getParentsDetails"]);
+Route::post("/Parent/UpdatePass",[parentCOntroller::class,"parentPasswordUpdate"]);
+Route::get("/Parent/Peformance/View/{student_id}",[parentCOntroller::class,"studentPerfomances"]);
+Route::get("/Parent/Print-resultslip/{exam_id}/{adm_no}",[parentCOntroller::class,"printResultSlip"]);
+Route::get("/Parent/View/StudentProfile/{student_id}",[parentCOntroller::class,"getStudentProfile"]);
 
 // notification
 Route::get("/Teacher/Messages",[teacherController::class,"teacherMessage"]);

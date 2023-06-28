@@ -310,12 +310,27 @@
                                         (is_object(json_decode($string)) ||
                                         is_array(json_decode($string))))) ? true : false;
                             }
+
+                            function classNameAdms($data)
+                            {
+                                if ($data == "-1") {
+                                    return "Alumni";
+                                }
+                                if ($data == "-2") {
+                                    return "Transfered";
+                                }
+                                $datas = "Grade " . $data;
+                                if (strlen($data) > 1) {
+                                    $datas = $data;
+                                }
+                                return $datas;
+                            }
                         @endphp
                         <!-- Recent Sales -->
                         <div class="col-12">
                             <div class="card recent-sales overflow-auto">
                                 <div class="card-body">
-                                    <h5 class="card-title">Active Assignments Class: {{session("student_information")->stud_class}} <span></span></h5>
+                                    <h5 class="card-title">Active Assignments Class: {{classNameAdms(session("student_information")->stud_class)}} <span></span></h5>
                                     <p class="text-danger">{{session("invalid") != null?session("invalid") : ""}}</p>
                                     <p class="text-success">{{session("valid") != null?session("valid") : ""}}</p>
                                     @php
@@ -414,7 +429,7 @@
                         <div class="col-12">
                             <div class="card recent-sales overflow-auto">
                                 <div class="card-body">
-                                    <h5 class="card-title">Completed / Closed Assignment Table for Class: {{session("student_information")->stud_class}} <span></span></h5>
+                                    <h5 class="card-title">Completed / Closed Assignment Table for Class: {{classNameAdms(session("student_information")->stud_class)}} <span></span></h5>
                                     <p class="text-danger">{{session("invalid") != null?session("invalid") : ""}}</p>
                                     <table class="table table-borderless datatable">
                                         <thead>

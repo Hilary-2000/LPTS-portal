@@ -383,7 +383,8 @@
                             <h6 class="card-title">Assignment Review : "{{ $assignment->name }}" ||
                                 {{ $subject_name }}</h6>
                                 <p class="col-md-4 mt-2 my-0 p-1 rounded border border-secondary" style="background: rgb(209, 209, 209);" ><b>Total Marks: </b>{{$total_points}} Mks</p>
-                                <p class="col-md-4 mb-4 my-0 p-1 rounded border border-secondary" style="background: rgb(209, 209, 209);" ><b>Attained Marks: </b>{{$total_marks}} Mks</p>
+                                <p class="col-md-4 mx-0 my-0 p-1 rounded border border-secondary" style="background: rgb(209, 209, 209);" ><b>Attained Marks: </b>{{$total_marks}} Mks</p>
+                                <p class="col-md-4 mb-4 my-0 p-1 rounded border border-secondary" style="background: rgb(209, 209, 209);" ><b>Created By: </b>{{$creators_name}}</p>
                                 
                             {{-- from this section all the questions ate going to be dislayed here --}}
                             <div class="container p-0 w-100">

@@ -68,8 +68,9 @@ class PDF extends FPDF
     // Page header
     function Header()
     {
+        $this->SetY(10);
         // Logo
-        $this->Image($this->company_logo, 3, 3, 20);
+        $this->Image($this->company_logo, 3, 8, 20);
         // Arial  15
         $this->SetFont('Helvetica', 'B', 15);
         // Title
@@ -107,7 +108,7 @@ class PDF extends FPDF
         $this->Cell(0, 5, 'Page ' . $this->PageNo() . '', 0, 0, 'C');
         $this->Ln();
         $this->SetFont('Arial', 'I', 7);
-        $this->Cell($this->school_header_position, 7, "This is a computer generated document. If found please return to " . ucwords(strtolower(trim($this->school_name))) . " or contact " . $this->school_contact . "",0,0,'C');
+        $this->Cell($this->school_header_position, 7, "If found please return to " . ucwords(strtolower(trim($this->school_name))) . " or contact " . $this->school_contact . "",0,0,'C');
     }
 
     function setHeaderPos($pos)

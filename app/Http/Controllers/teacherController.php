@@ -224,7 +224,7 @@ class teacherController extends Controller
 
         // get the alerts
         $teacher_id = session("staff_infor")->user_id;
-        $message_notification = DB::select("SELECT MAX(`owner_type`) AS 'owner_type',MAX(`message_body`) AS 'message_body',MAX(`message_title`) AS 'message_title',MAX(`date_created`) AS 'date_created',MAX(`message_edit_status`) AS 'message_edit_status',MAX(`message_editor_id`) AS 'message_editor_id' FROM `message_n_alert` WHERE `created_by` = '1' GROUP BY `message_editor_id` ORDER BY MAX(`id`) DESC;");
+        $message_notification = DB::select("SELECT MAX(`owner_type`) AS 'owner_type',MAX(`message_body`) AS 'message_body',MAX(`message_title`) AS 'message_title',MAX(`date_created`) AS 'date_created',MAX(`message_edit_status`) AS 'message_edit_status',MAX(`message_editor_id`) AS 'message_editor_id' FROM `message_n_alert` WHERE `created_by` = '".$teacher_id."' GROUP BY `message_editor_id` ORDER BY MAX(`id`) DESC;");
 
         // loop through the notification to get the stats
         for ($index=0; $index < count($message_notification); $index++) { 

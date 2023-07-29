@@ -193,7 +193,7 @@
     var school_code = [];
     for (let index = 0; index < all_array.length; index++) {
       const element = all_array[index];
-      console.log(element);
+      // console.log(element);
       school_name.push(element[0]);
       school_code.push(element[1]);
     }

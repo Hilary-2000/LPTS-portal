@@ -43,6 +43,44 @@ cObj("main_date_selector").onchange = function () {
     displayData();
 }
 
+cObj("generate_video_id").onclick = function () {
+    var err = checkBlank("youtube_video_urls");
+    if (err == 0) {
+        var youtube_video_url = valObj("youtube_video_urls");
+        var video_id = getYouTubeVideoID(youtube_video_url);
+
+        // generate video id
+        cObj("youtube_video_ids").value = video_id;
+        cObj("youtube_video_urls").value = "";
+    }
+}
+
+function getYouTubeVideoID(url) {
+    var video_id = null;
+    if (url.includes('youtu.be')) {
+        // Handle short URLs
+        video_id = url.split('youtu.be/')[1];
+    } else {
+        // Handle long URLs
+        url = url.split(/(v=)/);
+        if(url[2] !== undefined) {
+            video_id = url[2].split(/[^0-9a-z_\-]/i);
+            video_id = video_id[0];
+        }
+    }
+    return video_id;
+}
+
+cObj("video_id_selector").onchange = function () {
+    if (this.value == "generate_id") {
+        cObj("generate_video_url").classList.remove("d-none");
+        cObj("youtube_video_ids").disabled = true;
+    }else if (this.value == "type_id") {
+        cObj("generate_video_url").classList.add("d-none");
+        cObj("youtube_video_ids").disabled = false;
+    }
+}
+
 cObj("plan_resources").onchange = function () {
     var its_value = this.value;
     if (its_value == "Notes/Documents") {
@@ -206,6 +244,7 @@ function displayData() {
         // get the objectives of the plan
         var short_term_data = valObj("short_term_data");
         if (hasJsonStructure(short_term_data)) {
+            console.log(short_term_data);
             // short term data
             short_term_data = JSON.parse(short_term_data);
 
@@ -277,6 +316,21 @@ function displayData() {
                 displayYoutube([], original_date);
             }
 
+            var found_stages = false;
+            for (let index = 0; index < short_term_data.length; index++) {
+                const element = short_term_data[index];
+                if (element.date == original_date) {
+                    if (element.lesson_development != undefined) {
+                        found_stages = true;
+                        display_lesson_development(element.lesson_development,original_date);
+                    }
+                }
+            }
+            // found stages
+            if (!found_stages) {
+                display_lesson_development([],original_date);
+            }
+
             // display youtube videos
             var found_quizes = 0;
             for (let index = 0; index < short_term_data.length; index++) {
@@ -289,19 +343,51 @@ function displayData() {
             if (found_quizes == 0) {
                 displayQuiz([], original_date);
             }
+
+            // display introduction
+            var found_introduction = false;
+            for (let index = 0; index < short_term_data.length; index++) {
+                const element = short_term_data[index];
+                if (element.date == original_date){
+                    if (element.introductions != undefined) {
+                        found_introduction = true;
+                        cObj("introductions_appear_here").innerHTML = element.introductions.length > 0 ? element.introductions : "<h3 class='text-center text-secondary mt-1'><i class='bi bi-exclamation-triangle'></i></h3><p class='text-secondary text-center'>Introduction is not set for "+formatDate(original_date)+"..</p>";
+                    }
+                }
+            }
+
+            if (!found_introduction) {
+                cObj("introductions_appear_here").innerHTML = "<h3 class='text-center text-secondary mt-1'><i class='bi bi-exclamation-triangle'></i></h3><p class='text-secondary text-center'>Introduction is not set for "+formatDate(original_date)+"..</p>";
+            }
+
+            // display conclusions
+            var found_conclusions = false;
+            for (let index = 0; index < short_term_data.length; index++) {
+                const element = short_term_data[index];
+                if (element.date == original_date) {
+                    if (element.conclusions != undefined) {
+                        found_conclusions = true;
+                        cObj("conclusions_appear_here").innerHTML = element.conclusions.length > 0 ? element.conclusions : "<h3 class='text-center text-secondary mt-1'><i class='bi bi-exclamation-triangle'></i></h3><p class='text-secondary text-center'>No conclusion is set for "+formatDate(original_date)+"..</p>";
+                    }
+                }
+            }
+
+            if (!found_conclusions) {
+                cObj("conclusions_appear_here").innerHTML = "<h3 class='text-center text-secondary mt-1'><i class='bi bi-exclamation-triangle'></i></h3><p class='text-secondary text-center'>No conclusion is not set for "+formatDate(original_date)+"..</p>";
+            }
             
             // display comments
             var found_comments = 0;
             for (let index = 0; index < short_term_data.length; index++) {
                 const element = short_term_data[index];
                 if (element.date == original_date) {
-                    cObj("comments_appear_here").innerHTML = element.comments.length > 0 ? element.comments : "<h3 class='text-center text-secondary mt-1'><i class='bi bi-exclamation-triangle'></i></h3><p class='text-secondary text-center'>Comments are not set..</p>";
+                    cObj("comments_appear_here").innerHTML = element.comments.length > 0 ? element.comments : "<h3 class='text-center text-secondary mt-1'><i class='bi bi-exclamation-triangle'></i></h3><p class='text-secondary text-center'>Comments are not set for "+formatDate(original_date)+"..</p>";
                     found_comments = 1;
                 }
             }
 
             if (found_comments == 0) {
-                cObj("comments_appear_here").innerHTML = "<h3 class='text-center text-secondary mt-1'><i class='bi bi-exclamation-triangle'></i></h3><p class='text-secondary text-center'>Comments are not set..</p>";
+                cObj("comments_appear_here").innerHTML = "<h3 class='text-center text-secondary mt-1'><i class='bi bi-exclamation-triangle'></i></h3><p class='text-secondary text-center'>Comments are not set "+formatDate(original_date)+"..</p>";
             }
 
             // show if completed
@@ -645,6 +731,60 @@ function deleteVideo(youtube_vid_id) {
     }
 }
 
+function display_lesson_development(lesson_development, original_date) {
+    var data_to_display = "";
+    if (lesson_development.length > 0) {
+        for (let ind = 0; ind < lesson_development.length; ind++) {
+            const elem = lesson_development[ind];
+            data_to_display += "<li class='list-group-item'> (Stage " + (ind + 1) + "). <b>" + elem.value + "</b> <span style='cursor:pointer;' class='text-danger trash_lesson_development' id = 'trash_lesson_development_" + elem.id + "'><i class='bi bi-trash'></i></span></li>";
+        }
+    } else {
+        data_to_display += "<h3 class='text-center text-secondary mt-1'><i class='bi bi-exclamation-triangle'></i></h3><p class='text-secondary text-center'>No lesson development stages set for " + formatDate(original_date) + "!</p>"
+    }
+    cObj("lesson_development_stages").innerHTML = data_to_display;
+
+    // lesson development
+    var trash_lesson_development = document.getElementsByClassName("trash_lesson_development");
+    for (let index = 0; index < trash_lesson_development.length; index++) {
+        const element = trash_lesson_development[index];
+        element.addEventListener("click", function () {
+            var this_id = this.id.substr(25);
+
+            // todays date
+            var todays_date = valObj("main_date_selector");
+            
+            // short term data
+            var short_term_data = valObj("short_term_data");
+            if (hasJsonStructure(short_term_data)) {
+                // short term data
+                short_term_data = JSON.parse(short_term_data);
+                for (let ind = 0; ind < short_term_data.length; ind++) {
+                    const elem = short_term_data[ind];
+                    if (elem.date == todays_date) {
+                        var new_lesson_development = [];
+                        if (elem.lesson_development != undefined) {
+                            for (let inds = 0; inds < elem.lesson_development.length; inds++) {
+                                const elems = elem.lesson_development[inds];
+                                if (elems.id == this_id) {
+                                    continue;
+                                }
+                                new_lesson_development.push(elems);
+                            }
+                        }
+                        
+                        // change the objective list
+                        short_term_data[ind].lesson_development = new_lesson_development;
+                        break;
+                    }
+                }
+
+                cObj("short_term_data").value = JSON.stringify(short_term_data);
+                displayData();
+            }
+        });
+    }
+}
+
 function displayQuiz(data_quiz, original_date) {
     var data_to_display = "";
     if (data_quiz.length > 0) {
@@ -693,6 +833,215 @@ function displayQuiz(data_quiz, original_date) {
                 displayData();
             }
         });
+    }
+}
+
+// save the introctions
+cObj("set_plan_introductions").onclick = function () {
+    var err = checkBlank("plan_introductions_get_started");
+    if (err == 0) {
+        var short_term_data = valObj("short_term_data");
+        var term_n_weeks = getTermWeek(dates_details, valObj("main_date_selector"));
+
+        // check if has json structure
+        if (term_n_weeks[0] == "Not Set") {
+            cObj("text_error_display").innerText = "You cannot create a plan on a date thats not included in the academic calender, Its considered a holiday or a weekend!";
+            cObj("error_names_are_in").click();
+        } else{
+            if (hasJsonStructure(short_term_data)){
+                short_term_data = JSON.parse(short_term_data);
+                var date_selected = valObj("main_date_selector");
+
+                // loop through the data
+                var not_present = 0;
+                for (let index = 0; index < short_term_data.length; index++) {
+                    const element = short_term_data[index];
+                    if (date_selected == element.date) {
+                        short_term_data[index].introductions = valObj("plan_introductions_get_started");
+                        not_present = 1;
+                        break;
+                    }
+                }
+                
+                if (not_present == 0) {
+                    var new_plan = {
+                        objectives: [],
+                        activities: [],
+                        lesson_development:[],
+                        introductions:valObj("plan_introductions_get_started"),
+                        resources: {
+                            notes: [],
+                            videos: [],
+                            book_refference: [],
+                            quiz: []
+                        },
+                        comments: "",
+                        conclusions:"",
+                        week: term_n_weeks[1],
+                        term: term_n_weeks[0],
+                        date: valObj("main_date_selector"),
+                        completed: false
+                    }
+                    short_term_data.push(new_plan);
+                }
+
+                // display the data
+                cObj("short_term_data").value = JSON.stringify(short_term_data);
+                displayData();
+
+                cObj("plan_objectives").value = "";
+            }
+        }
+    }
+}
+
+// save lesson stages
+cObj("set_lesson_development").onclick = function () {
+    var err = checkBlank("plan_lesson_development");
+    if (err == 0) {
+        var short_term_data = valObj("short_term_data");
+        var term_n_weeks = getTermWeek(dates_details, valObj("main_date_selector"));
+
+        // check if has json structure
+        if (term_n_weeks[0] == "Not Set") {
+            cObj("text_error_display").innerText = "You cannot create a plan on a date thats not included in the academic calender, Its considered a holiday or a weekend!";
+            cObj("error_names_are_in").click();
+        }else {
+            if (hasJsonStructure(short_term_data)) {
+                short_term_data = JSON.parse(short_term_data);
+                var date_selected = valObj("main_date_selector");
+
+                // loop through the data
+                var not_present = 0;
+                for (let index = 0; index < short_term_data.length; index++) {
+                    const element = short_term_data[index];
+                    if (date_selected == element.date) {
+                        if (element.lesson_development != undefined) {
+                            var lesson_development = element.lesson_development;
+                            var latest_id = 0;
+                            if (lesson_development.length > 0) {
+                                for (let inds = 0; inds < lesson_development.length; inds++) {
+                                    const element = lesson_development[inds];
+                                    if (element.id * 1 >= latest_id) {
+                                        latest_id = (element.id * 1);
+                                    }
+                                }
+                            }
+
+                            // latest add
+                            latest_id += 1;
+                            var new_lesson_development = {
+                                id: latest_id,
+                                value: valObj("plan_lesson_development")
+                            }
+                            short_term_data[index].lesson_development.push(new_lesson_development);
+                        }else{
+                            var new_lesson_development = {
+                                id: 1,
+                                value: valObj("plan_lesson_development")
+                            }
+                            short_term_data[index].lesson_development = [new_lesson_development];
+                        }
+                        not_present = 1;
+                        break;
+                    }
+                }
+
+                // if not present add new
+                if (not_present == 0) {
+                    var new_plan = {
+                        objectives: [],
+                        introductions:"",
+                        lesson_development:[{
+                            id: 1,
+                            value: valObj("plan_lesson_development")
+                        }],
+                        activities: [],
+                        resources: {
+                            notes: [],
+                            videos: [],
+                            book_refference: [],
+                            quiz: []
+                        },
+                        comments: "",
+                        conclusions:"",
+                        week: term_n_weeks[1],
+                        term: term_n_weeks[0],
+                        date: valObj("main_date_selector"),
+                        completed: false
+                    }
+
+                    short_term_data.push(new_plan);
+                }
+
+                // display the data
+                cObj("short_term_data").value = JSON.stringify(short_term_data);
+                displayData();
+
+                cObj("plan_lesson_development").value = "";
+            }
+        }
+    }
+}
+
+cObj("set_a_conclusion").onclick = function () {
+    var err = checkBlank("plan_conclusions");
+    if (err == 0){
+        var short_term_data = valObj("short_term_data");
+        var term_n_weeks = getTermWeek(dates_details, valObj("main_date_selector"));
+
+        // check if has json structure
+        if (term_n_weeks[0] == "Not Set") {
+            cObj("text_error_display").innerText = "You cannot create a plan on a date thats not included in the academic calender, Its considered a holiday or a weekend!";
+            cObj("error_names_are_in").click();
+        }else{
+            if (hasJsonStructure(short_term_data)) {
+                short_term_data = JSON.parse(short_term_data);
+                var date_selected = valObj("main_date_selector");
+
+                // loop through the data
+                var not_present = 0;
+                for (let index = 0; index < short_term_data.length; index++) {
+                    const element = short_term_data[index];
+                    if (date_selected == element.date) {
+                            var conclusions = element.conclusions;
+                            short_term_data[index].conclusions = valObj("plan_conclusions");
+                            not_present = 1;
+                            break;
+                    }
+                }
+
+                // if not present add new
+                if (not_present == 0) {
+                    var new_plan = {
+                        objectives: [],
+                        introductions:"",
+                        lesson_development:[],
+                        activities: [],
+                        resources: {
+                            notes: [],
+                            videos: [],
+                            book_refference: [],
+                            quiz: []
+                        },
+                        comments: "",
+                        conclusions:valObj("plan_conclusions"),
+                        week: term_n_weeks[1],
+                        term: term_n_weeks[0],
+                        date: valObj("main_date_selector"),
+                        completed: false
+                    }
+
+                    short_term_data.push(new_plan);
+                }
+
+                // display the data
+                cObj("short_term_data").value = JSON.stringify(short_term_data);
+                displayData();
+
+                cObj("plan_conclusions").value = "";
+            }
+        }
     }
 }
 
@@ -747,6 +1096,8 @@ cObj("save_objectives").onclick = function () {
                             id: 1,
                             value: valObj("plan_objectives")
                         }],
+                        introductions:"",
+                        lesson_development:[],
                         activities: [],
                         resources: {
                             notes: [],
@@ -755,6 +1106,7 @@ cObj("save_objectives").onclick = function () {
                             quiz: []
                         },
                         comments: "",
+                        conclusions:"",
                         week: term_n_weeks[1],
                         term: term_n_weeks[0],
                         date: valObj("main_date_selector"),
@@ -822,6 +1174,8 @@ cObj("save_activities").onclick = function () {
                 if (not_present == 0) {
                     var new_plan = {
                         objectives: [],
+                        introductions:"",
+                        lesson_development:[],
                         activities: [{
                             id: 1,
                             value: valObj("plan_activities")
@@ -833,6 +1187,7 @@ cObj("save_activities").onclick = function () {
                             quiz: []
                         },
                         comments: "",
+                        conclusions:"",
                         week: term_n_weeks[1],
                         term: term_n_weeks[0],
                         date: valObj("main_date_selector"),
@@ -880,6 +1235,8 @@ cObj("complete_status").onchange = function () {
             if (not_present == 0) {
                 var new_plan = {
                     objectives: [],
+                    introductions:"",
+                    lesson_development:[],
                     activities: [],
                     resources: {
                         notes: [],
@@ -888,6 +1245,7 @@ cObj("complete_status").onchange = function () {
                         quiz: []
                     },
                     comments: "",
+                    conclusions:"",
                     week: term_n_weeks[1],
                     term: term_n_weeks[0],
                     date: valObj("main_date_selector"),
@@ -952,6 +1310,8 @@ cObj("add_book_refferences").onclick = function () {
                 if (not_present == 0) {
                     var new_plan = {
                         objectives: [],
+                        introductions:"",
+                        lesson_development:[],
                         activities: [],
                         resources: {
                             notes: [],
@@ -963,6 +1323,7 @@ cObj("add_book_refferences").onclick = function () {
                             quiz: []
                         },
                         comments: "",
+                        conclusions:"",
                         week: term_n_weeks[1],
                         term: term_n_weeks[0],
                         date: valObj("main_date_selector"),
@@ -1036,6 +1397,8 @@ cObj("add_youtube_video_ids").onclick = function () {
                     file_data.id = 1;
                     var new_plan = {
                         objectives: [],
+                        introductions:"",
+                        lesson_development:[],
                         activities: [],
                         resources: {
                             notes: [],
@@ -1044,6 +1407,7 @@ cObj("add_youtube_video_ids").onclick = function () {
                             quiz: []
                         },
                         comments: "",
+                        conclusions:"",
                         week: term_n_weeks[1],
                         term: term_n_weeks[0],
                         date: valObj("main_date_selector"),
@@ -1113,6 +1477,8 @@ cObj("set_a_quizes").onclick = function () {
                 if (not_present == 0) {
                     var new_plan = {
                         objectives: [],
+                        introductions:"",
+                        lesson_development:[],
                         activities: [],
                         resources: {
                             notes: [],
@@ -1124,6 +1490,7 @@ cObj("set_a_quizes").onclick = function () {
                             }]
                         },
                         comments: "",
+                        conclusions:"",
                         week: term_n_weeks[1],
                         term: term_n_weeks[0],
                         date: valObj("main_date_selector"),
@@ -1173,6 +1540,8 @@ cObj("set_a_comments").onclick = function () {
                 if (not_present == 0) {
                     var new_plan = {
                         objectives: [],
+                        introductions:"",
+                        lesson_development:[],
                         activities: [],
                         resources: {
                             notes: [],
@@ -1181,6 +1550,7 @@ cObj("set_a_comments").onclick = function () {
                             quiz: []
                         },
                         comments: valObj("plan_comments"),
+                        conclusions:"",
                         week: term_n_weeks[1],
                         term: term_n_weeks[0],
                         date: valObj("main_date_selector"),
@@ -1305,6 +1675,8 @@ function uploadYoutube() {
                                 file_data.id = 1;
                                 var new_plan = {
                                     objectives: [],
+                                    introductions:"",
+                                    lesson_development:[],
                                     activities: [],
                                     resources: {
                                         notes: [],
@@ -1313,6 +1685,7 @@ function uploadYoutube() {
                                         quiz: []
                                     },
                                     comments: "",
+                                    conclusions:"",
                                     week: term_n_weeks[1],
                                     term: term_n_weeks[0],
                                     date: valObj("main_date_selector"),
@@ -1449,6 +1822,8 @@ function uploadFile() {
                             file_data.id = 1;
                             var new_plan = {
                                 objectives: [],
+                                introductions:"",
+                                lesson_development:[],
                                 activities: [],
                                 resources: {
                                     notes: [file_data],
@@ -1457,6 +1832,7 @@ function uploadFile() {
                                     quiz: []
                                 },
                                 comments: "",
+                                conclusions:"",
                                 week: term_n_weeks[1],
                                 term: term_n_weeks[0],
                                 date: valObj("main_date_selector"),

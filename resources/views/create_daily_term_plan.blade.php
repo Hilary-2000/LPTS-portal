@@ -460,7 +460,23 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
-                            <h6 class="text-center"><b>Objectives</b></h6>
+                            <h6 class="text-center"><b>Introduction / Getting Started / Utangulizi</b></h6>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="plan_introductions_get_started" class="form-label"><b>Set up Introduction</b></label>
+                            <textarea name="plan_introductions_get_started" id="plan_introductions_get_started" class="form-control" placeholder="Set up your lesson introduction here..." colspan="30"
+                                rows="5"></textarea>
+                            <button class="btn btn-primary my-1 w-100" id="set_plan_introductions"><i class="bi-save"></i>
+                                Save</button>
+                        </div>
+                        <div class="col-md-8" style="border-left: 1px solid rgb(119, 119, 119);">
+                            <h6 id="introductions_appear_here" class="my-2 p-1"></h6>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6 class="text-center"><b>Objectives (Learners should be able to / Mwanafunzi aweze)</b></h6>
                         </div>
                         <div class="col-md-4">
                             <label for="plan_objectives" class="form-label"><b>Define Objectives</b></label>
@@ -506,7 +522,40 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
-                            <h6 class="text-center"><b>Resources</b></h6>
+                            <h6 class="text-center"><b>Key Inquiry Questions (KIQ) / Maswali Dadisi</b></h6>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="plan_quizes" class="form-label"><b>Set A Quiz</b></label>
+                            <input type="text" name="plan_quizes" id="plan_quizes" class="form-control"
+                                placeholder="Set quiz..">
+                            <button class="btn btn-primary my-1 w-100" id="set_a_quizes"><i class="bi-save"></i>
+                                Save</button>
+                        </div>
+                        <div class="col-md-8" style="border-left: 1px solid rgb(119, 119, 119);">
+                            <label for="quiz_list" class="form-label"><b>Quiz List</b></label>
+                            <ul class="list-group" id="quiz_list">
+                                <li class="list-group-item">1. Stop Violence <input type="hidden" value="1"
+                                        id="objective_id_1_0"> <span style="cursor:pointer;"
+                                        class="text-danger trash_objective hide" id="trash_objective_1_0"><i
+                                            class="bi bi-trash"></i></span></li>
+                                <li class="list-group-item">2. Objective 1 <input type="hidden" value="2"
+                                        id="objective_id_2_0"> <span style="cursor:pointer;"
+                                        class="text-danger trash_objective hide" id="trash_objective_2_0"><i
+                                            class="bi bi-trash"></i></span></li>
+                                <li class="list-group-item">3. This plan is linked with the Long Term Plan, you will be
+                                    able to create this plan reffering to the termly objectives that were defined in the
+                                    long term plan. Furthermore you will be able to break the activities in weekly
+                                    format, share the activities that will be done, objectives and the resources to be
+                                    used. <input type="hidden" value="3" id="objective_id_3_0"> <span
+                                        style="cursor:pointer;" class="text-danger trash_objective hide"
+                                        id="trash_objective_3_0"><i class="bi bi-trash"></i></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6 class="text-center"><b>Learning Resources / Vifaa na Asilia</b></h6>
                         </div>
                         <div class="col-md-4 mx-1">
                             <div class="container">
@@ -567,9 +616,29 @@
                                 <textarea required name="video_descriptions" id="video_descriptions" cols="30" rows="5"
                                     class="form-control" placeholder="Video description."></textarea>
 
-                                <label for="youtube_video_ids" class="form-label">Youtube Video Id</label>
-                                <input type="text" id="youtube_video_ids" class="form-control"
-                                    placeholder="e.g, Pou_FMGBw8Q">
+                                {{-- VIDEO ID GENERATOR --}}
+                                <label for="video_id_selector" class="form-label"><b>Video ID options</b></label>
+                                <select name="video_id_selector" id="video_id_selector" class="form-control">
+                                    <option value="" hidden>Select option...</option>
+                                    <option value="generate_id">Generate from URL</option>
+                                    <option selected value="type_id">Type Video URL</option>
+                                </select>
+                                <div class="d-none" id="generate_video_url">
+                                    <label for="youtube_video_urls" class="form-label text-primary"><b>Enter Video URL here!</b></label>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <input type="text" id="youtube_video_urls" class="form-control"
+                                        placeholder="e.g, https://www.youtube.com/watch?v=Pou_FMGBw8Q">
+                                        </div>
+                                        <div class="col-md-2"><button id="generate_video_id" class="btn btn-sm btn-primary mx-auto"><i class="bi bi-gear"></i></button></div>
+                                    </div>
+                                </div>
+
+                                <div class="" id="enter_video_id">
+                                    <label for="youtube_video_ids" class="form-label text-primary"><b>Youtube Video Id</b></label>
+                                    <input type="text" id="youtube_video_ids" class="form-control"
+                                        placeholder="e.g, Pou_FMGBw8Q">
+                                </div>
 
                                 <label class="form-label" for="video_privacy_status"><b>Video Privacy
                                         Status</b></label>
@@ -656,44 +725,33 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
-                            <h6 class="text-center"><b>Quizes</b></h6>
+                            <h6 class="text-center"><b>Lesson Development / Utaratibu wa Somo</b></h6>
                         </div>
                         <div class="col-md-4">
-                            <label for="plan_quizes" class="form-label"><b>Set A Quiz</b></label>
-                            <input type="text" name="plan_quizes" id="plan_quizes" class="form-control"
+                            <label for="plan_lesson_development" class="form-label"><b>Stage / Hatua</b></label>
+                            <input type="text" name="plan_lesson_development" id="plan_lesson_development" class="form-control"
                                 placeholder="Set quiz..">
-                            <button class="btn btn-primary my-1 w-100" id="set_a_quizes"><i class="bi-save"></i>
+                            <button class="btn btn-primary my-1 w-100" id="set_lesson_development"><i class="bi-save"></i>
                                 Save</button>
                         </div>
                         <div class="col-md-8" style="border-left: 1px solid rgb(119, 119, 119);">
-                            <label for="quiz_list" class="form-label"><b>Quiz List</b></label>
-                            <ul class="list-group" id="quiz_list">
-                                <li class="list-group-item">1. Stop Violence <input type="hidden" value="1"
+                            <label for="quiz_list" class="form-label"><b>Stages / Hatua</b></label>
+                            <ul class="list-group" id="lesson_development_stages">
+                                <li class="list-group-item">Step 1 / Hatua la 1: <input type="hidden" value="1"
                                         id="objective_id_1_0"> <span style="cursor:pointer;"
-                                        class="text-danger trash_objective hide" id="trash_objective_1_0"><i
+                                        class="text-danger  hide" id=""><i
                                             class="bi bi-trash"></i></span></li>
-                                <li class="list-group-item">2. Objective 1 <input type="hidden" value="2"
-                                        id="objective_id_2_0"> <span style="cursor:pointer;"
-                                        class="text-danger trash_objective hide" id="trash_objective_2_0"><i
-                                            class="bi bi-trash"></i></span></li>
-                                <li class="list-group-item">3. This plan is linked with the Long Term Plan, you will be
-                                    able to create this plan reffering to the termly objectives that were defined in the
-                                    long term plan. Furthermore you will be able to break the activities in weekly
-                                    format, share the activities that will be done, objectives and the resources to be
-                                    used. <input type="hidden" value="3" id="objective_id_3_0"> <span
-                                        style="cursor:pointer;" class="text-danger trash_objective hide"
-                                        id="trash_objective_3_0"><i class="bi bi-trash"></i></span></li>
                             </ul>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
-                            <h6 class="text-center"><b>Comments</b></h6>
+                            <h6 class="text-center"><b>Reflection of the Lesson / Maoni (Comments)</b></h6>
                         </div>
                         <div class="col-md-4">
-                            <label for="plan_comments" class="form-label"><b>Comments</b></label>
-                            <textarea name="plan_comments" id="plan_comments" class="form-control" placeholder="Comment here" cols="30"
+                            <label for="plan_comments" class="form-label"><b>Lesson reflection</b></label>
+                            <textarea name="plan_comments" id="plan_comments" class="form-control" placeholder="Write your lesson reflection here.." cols="30"
                                 rows="5"></textarea>
                             <button class="btn btn-primary my-1 w-100" id="set_a_comments"><i class="bi-save"></i>
                                 Save</button>
@@ -701,6 +759,23 @@
                         <div class="col-md-8" style="border-left: 1px solid rgb(119, 119, 119);">
                             {{-- <p><b>Comments appear here..</b></p> --}}
                             <h6 id="comments_appear_here" class="my-2 p-1"></h6>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6 class="text-center"><b>Conclusion / Hitimisho</b></h6>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="plan_conclusions" class="form-label"><b>Conclusion</b></label>
+                            <textarea name="plan_conclusions" id="plan_conclusions" class="form-control" placeholder="Conclusions..." cols="30"
+                                rows="5"></textarea>
+                            <button class="btn btn-primary my-1 w-100" id="set_a_conclusion"><i class="bi-save"></i>
+                                Save</button>
+                        </div>
+                        <div class="col-md-8" style="border-left: 1px solid rgb(119, 119, 119);">
+                            {{-- <p><b>Comments appear here..</b></p> --}}
+                            <h6 id="conclusions_appear_here" class="my-2 p-1"></h6>
                         </div>
                     </div>
                     <hr>

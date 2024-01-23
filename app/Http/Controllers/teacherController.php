@@ -411,7 +411,9 @@ class teacherController extends Controller
         return $encrypted;
     }
     function discussionForum(){
-        return view("coming_soon");
+        // return $notifications;
+        $teacher_notifications = $this->getTrsNotification();
+        return view("teacher_chatroom",["teacher_notifications" => $teacher_notifications]);
     }
     function decryptcode($datatodecrypt)
     {

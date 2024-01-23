@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\assignmentController;
+use App\Http\Controllers\DiscussionForum;
 use App\Http\Controllers\lessonPlan;
 use App\Http\Controllers\parentCOntroller;
 use App\Http\Controllers\processLogin;
@@ -109,7 +110,12 @@ Route::get("/Assignments/Mark/{assignment_id}",[assignmentController::class,"mar
 Route::get("/Teacher/Assignment/Mark/{assignment_id}/{adm_no}",[assignmentController::class,"markStudentAssignments"]);
 Route::post("/Teacher/Mark/Submit",[assignmentController::class,"markedAnswers"]);
 Route::get("/Teacher/Redo/{assignment_id}/{student_id}",[assignmentController::class,"redoAssignment"]);
-Route::get("/Teacher/DiscussionForum",[teacherController::class,"discussionForum"]);
+
+// discusion forum
+Route::get("/Teacher/DiscussionForum",[DiscussionForum::class,"discussionForum"]);
+Route::get("/Teacher/DiscussionForum",[DiscussionForum::class,"discussionForum"]);
+Route::post("/Teacher/Get",[DiscussionForum::class,"getTeacherDiscussion"]);
+Route::post("/Teacher/Send",[DiscussionForum::class,"send_message"]);
 
 
 // student dashboard

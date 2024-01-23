@@ -507,16 +507,16 @@ class lessonPlan extends Controller
         config(['database.connections.mysql2.database' => $database_name]);
         DB::setDefaultConnection("mysql2");
 
-        if ($this->isHod($lesson_id)) {
-            return $this->createMediumPlanHOD($lesson_id, $class);
-        }
+        // if ($this->isHod($lesson_id)) {
+        //     return $this->createMediumPlanHOD($lesson_id, $class);
+        // }
 
 
         // check if the teacher teaches the subject
         $staff_id = session("staff_infor")->user_id;
         $subject_details = DB::select("SELECT * FROM `table_subject` WHERE `subject_id` = ? AND `teachers_id` LIKE '%(" . $staff_id . ":" . $class . ")%'", [$lesson_id]);
 
-        if (count($subject_details) < 1) {
+        if (count($subject_details) < 1 && !$this->isHod($lesson_id)) {
             session()->flash("invalid", "You do not teach the subject for that particular class!");
             DB::setDefaultConnection("mysql");
             return redirect("/Teacher/LessonPlan");
@@ -826,7 +826,11 @@ class lessonPlan extends Controller
             return view("create_medium_term_plan", ["teacher_notifications" => $teacher_notifications,"medium_term_status" => $medium_term_status,"long_term_plan" => $long_term_plan, "strands_data" => $strands_data, "dates_details" => $dates_details, "lesson_plan" => $lesson_plan, "populators" => $populators, "lesson_id" => $lesson_id, "class" => $class, "subject_details" => $subject_details[0], "get_class_name" => $this->classNameAdms($class), "academic_calender" => $academic_calender]);
         } else {
             session()->flash("strand_error", "SET THE LONG TERM PLAN FIRST! You cannot set the medim term plan without the long term plan being set!");
-            return redirect("/Teacher/Create/Lessonplan/$lesson_id/Class/$class");
+            if ($this->isHod($lesson_id)) {
+                return redirect("/Teacher/HOD/Create/Lessonplan/$lesson_id/Class/$class");
+            }else{
+                return redirect("/Teacher/Create/Lessonplan/$lesson_id/Class/$class");
+            }
         }
     }
     function CreateWeeklyPlan($lesson_id, $class)
@@ -841,17 +845,17 @@ class lessonPlan extends Controller
         config(['database.connections.mysql2.database' => $database_name]);
         DB::setDefaultConnection("mysql2");
 
-        if ($this->isHod($lesson_id)) {
-            return $this->CreateHODWeeklyPlan($lesson_id, $class);
-        }
+        // if ($this->isHod($lesson_id)) {
+        //     return $this->CreateHODWeeklyPlan($lesson_id, $class);
+        // }
 
 
         // check if the teacher teaches the subject
         $staff_id = session("staff_infor")->user_id;
         $subject_details = DB::select("SELECT * FROM `table_subject` WHERE `subject_id` = ? AND `teachers_id` LIKE '%(" . $staff_id . ":" . $class . ")%'", [$lesson_id]);
-
-        if (count($subject_details) < 1) {
-            session()->flash("invalid", "You do not teach the subject for that particular class!");
+        
+        if (count($subject_details) < 1 && !$this->isHod($lesson_id)) {
+            session()->flash("invalid", "You do not teach the subject for ".$this->classNameAdms($class)."!");
             DB::setDefaultConnection("mysql");
             return redirect("/Teacher/LessonPlan");
         }
@@ -995,7 +999,11 @@ class lessonPlan extends Controller
             return view("create_daily_term_plan", ["teacher_notifications" => $teacher_notifications,"short_term_status" => $short_term_status, "long_term_plan" => $long_term_plan, "lesson_id" => $lesson_id, "dates_details" => $dates_details, "class" => $class, "medium_term_plan" => $medium_term_plan, "subject_details" => $subject_details[0], "get_class_name" => $this->classNameAdms($class), "academic_calender" => $academic_calender, "short_term_plan" => $short_term_plan, "percentage" => $percentage]);
         } else {
             session()->flash("strand_error", "SET THE LONG TERM PLAN FIRST! You cannot set the short term plan without the long term plan being set!");
-            return redirect("/Teacher/Create/Lessonplan/$lesson_id/Class/$class");
+            if($this->isHod($lesson_id)){
+                return redirect("/Teacher/HOD/Create/Lessonplan/$lesson_id/Class/$class");
+            }else{
+                return redirect("/Teacher/Create/Lessonplan/$lesson_id/Class/$class");
+            }
         }
     }
     function CreateHODWeeklyPlan($lesson_id, $class)
@@ -2161,14 +2169,14 @@ class lessonPlan extends Controller
         config(['database.connections.mysql2.database' => $database_name]);
 
         DB::setDefaultConnection("mysql2");
-        if ($this->isHod($lesson_id)) {
-            return $this->createLongTermPlanHOD($lesson_id, $class);
-        }
+        // if ($this->isHod($lesson_id)) {
+        //     return $this->createLongTermPlanHOD($lesson_id, $class);
+        // }
 
         $staff_id = session("staff_infor")->user_id;
         $subject_details = DB::select("SELECT * FROM `table_subject` WHERE `subject_id` = ? AND `teachers_id` LIKE '%(" . $staff_id . ":" . $class . ")%'", [$lesson_id]);
 
-        if (count($subject_details) < 1) {
+        if (count($subject_details) < 1 && !$this->isHod($lesson_id)) {
             session()->flash("invalid", "You do not teach the subject for that particular class!");
             DB::setDefaultConnection("mysql");
             return redirect("/Teacher/LessonPlan");

@@ -466,7 +466,7 @@
                                                                             {{$long_lesson_plan[$i]->strand_name}}</h6>
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <span id="delete_strand{{$term}}_{{$i}}" class="delete_strand btn btn-primary"><i class="bi bi-trash"></i> Delete</span>
+                                                                <span id="delete_strand{{$term}}_{{$i}}" class="delete_strand btn btn-outline-danger"><i class="bi bi-trash"></i> Delete</span>
                                                                 <div class="container border border-danger rounded p-1 my-1 hide" id="delete_strand_window{{$term}}_{{$i}}">
                                                                     <p class="text-bold text-danger">Do you want to permanently delete <b>{{$long_lesson_plan[$i]->strand_name}}</b>?</p>
                                                                     <a href="/deleteStrand/Subject/{{$lesson_id}}/Class/{{$class}}/Strand/{{$long_lesson_plan[$i]->index}}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Strand: {{$long_lesson_plan[$i]->strand_name}}"><i class="bi bi-trash"></i> Delete</a>
@@ -753,7 +753,7 @@
                                                                                         class="bi bi-pen edit-pen"  data-bs-toggle="modal" data-bs-target="#edit_substrands_{{$term}}_{{$i}}_{{$index}}" ></i> : {{$sub_strands->name}}</h6>
                                                                                 </div>
                                                                                 <div class="col-md-3">
-                                                                                    <span id="delete_sub_strand{{$term}}_{{$i}}_{{$index}}" class="delete_sub_strand btn btn-primary"><i class="bi bi-trash"></i> Delete</span>
+                                                                                    <span id="delete_sub_strand{{$term}}_{{$i}}_{{$index}}" class="delete_sub_strand btn btn-outline-danger"><i class="bi bi-trash"></i> Delete</span>
                                                                                     <div class="container border border-danger rounded p-1 my-1 hide" id="delete_sub_strand_window{{$term}}_{{$i}}_{{$index}}">
                                                                                         <p class="text-bold text-danger">Do you want to permanently delete <b>{{$sub_strands->name}}</b>?</p>
                                                                                         <a href="/deleteSubStrand/Subject/{{$lesson_id}}/Class/{{$class}}/Strand/{{$sub_strands->sub_index}}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Sub-Strand: {{$sub_strands->name}}"><i class="bi bi-trash"></i> Delete</a>
@@ -1002,7 +1002,7 @@
                                                                             {{$long_lesson_plan[$i]->strand_name}}</h6>
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <span id="delete_strand{{$term}}_{{$i}}" class="delete_strand btn btn-primary"><i class="bi bi-trash"></i> Delete</span>
+                                                                <span id="delete_strand{{$term}}_{{$i}}" class="delete_strand btn btn-outline-danger"><i class="bi bi-trash"></i> Delete</span>
                                                                 <div class="container border border-danger rounded p-1 my-1 hide" id="delete_strand_window{{$term}}_{{$i}}">
                                                                     <p class="text-bold text-danger">Do you want to permanently delete <b>{{$long_lesson_plan[$i]->strand_name}}</b>?</p>
                                                                     <a href="/deleteStrand/Subject/{{$lesson_id}}/Class/{{$class}}/Strand/{{$long_lesson_plan[$i]->index}}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Strand: {{$long_lesson_plan[$i]->strand_name}}"><i class="bi bi-trash"></i> Delete</a>
@@ -1289,7 +1289,7 @@
                                                                                         class="bi bi-pen edit-pen"  data-bs-toggle="modal" data-bs-target="#edit_substrands_{{$term}}_{{$i}}_{{$index}}" ></i> : {{$sub_strands->name}}</h6>
                                                                                 </div>
                                                                                 <div class="col-md-3">
-                                                                                    <span id="delete_sub_strand{{$term}}_{{$i}}_{{$index}}" class="delete_sub_strand btn btn-primary"><i class="bi bi-trash"></i> Delete</span>
+                                                                                    <span id="delete_sub_strand{{$term}}_{{$i}}_{{$index}}" class="delete_sub_strand btn btn-outline-danger"><i class="bi bi-trash"></i> Delete</span>
                                                                                     <div class="container border border-danger rounded p-1 my-1 hide" id="delete_sub_strand_window{{$term}}_{{$i}}_{{$index}}">
                                                                                         <p class="text-bold text-danger">Do you want to permanently delete <b>{{$sub_strands->name}}</b>?</p>
                                                                                         <a href="/deleteSubStrand/Subject/{{$lesson_id}}/Class/{{$class}}/Strand/{{$sub_strands->sub_index}}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Sub-Strand: {{$sub_strands->name}}"><i class="bi bi-trash"></i> Delete</a>
@@ -1558,7 +1558,7 @@
                                                                             {{$long_lesson_plan[$i]->strand_name}}</h6>
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <span id="delete_strand{{$term}}_{{$i}}" class="delete_strand btn btn-primary"><i class="bi bi-trash"></i> Delete</span>
+                                                                <span id="delete_strand{{$term}}_{{$i}}" class="delete_strand btn btn-outline-danger"><i class="bi bi-trash"></i> Delete</span>
                                                                 <div class="container border border-danger rounded p-1 my-1 hide" id="delete_strand_window{{$term}}_{{$i}}">
                                                                     <p class="text-bold text-danger">Do you want to permanently delete <b>{{$long_lesson_plan[$i]->strand_name}}</b>?</p>
                                                                     <a href="/deleteStrand/Subject/{{$lesson_id}}/Class/{{$class}}/Strand/{{$long_lesson_plan[$i]->index}}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Strand: {{$long_lesson_plan[$i]->strand_name}}"><i class="bi bi-trash"></i> Delete</a>
@@ -1844,7 +1844,7 @@
                                                                                         class="bi bi-pen edit-pen"  data-bs-toggle="modal" data-bs-target="#edit_substrands_{{$term}}_{{$i}}_{{$index}}" ></i> : {{$sub_strands->name}}</h6>
                                                                                 </div>
                                                                                 <div class="col-md-3">
-                                                                                    <span id="delete_sub_strand{{$term}}_{{$i}}_{{$index}}" class="delete_sub_strand btn btn-primary"><i class="bi bi-trash"></i> Delete</span>
+                                                                                    <span id="delete_sub_strand{{$term}}_{{$i}}_{{$index}}" class="delete_sub_strand btn btn-outline-danger"><i class="bi bi-trash"></i> Delete</span>
                                                                                     <div class="container border border-danger rounded p-1 my-1 hide" id="delete_sub_strand_window{{$term}}_{{$i}}_{{$index}}">
                                                                                         <p class="text-bold text-danger">Do you want to permanently delete <b>{{$sub_strands->name}}</b>?</p>
                                                                                         <a href="/deleteSubStrand/Subject/{{$lesson_id}}/Class/{{$class}}/Strand/{{$sub_strands->sub_index}}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Sub-Strand: {{$sub_strands->name}}"><i class="bi bi-trash"></i> Delete</a>
